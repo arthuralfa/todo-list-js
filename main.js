@@ -3,14 +3,15 @@ const textInput = document.querySelector("#textInput");
 const listHTML = document.querySelector("#list");
 const errorMessage = document.querySelector("#error-message");
 const card = document.querySelector(".card")
-const noTaskMsg = document.querySelector("#no-tasks-msg")
-let taskList = [];
+let taskList = JSON.parse(localStorage.getItem('myTodoList')) || [];
 
-function createTask(mensagem) {
+render();
+
+function createTask(mensage) {
     return {
         id: Date.now(),
-        texto: mensagem,
-        concluida: false
+        text: mensage,
+        done: false
     }
 }
 
@@ -21,11 +22,14 @@ function createItem(task){
     const doneBtn = document.createElement('button');
     const deleteBtn = document.createElement('button');
 
+    if(task.done) {
+        taskHTML.classList.add("done");
+    }
     taskHTML.classList.add("task")
     doneBtn.classList.add("done-btn");
     deleteBtn.classList.add("delete-btn")
 
-    span.textContent = task.texto;
+    span.textContent = task.text;
     doneBtn.textContent = "✓";
     deleteBtn.textContent = "🗑";
 
@@ -36,12 +40,12 @@ function createItem(task){
     listHTML.appendChild(taskHTML);
 
     doneBtn.addEventListener('click', (e) => {
-        taskHTML.classList.toggle("done");
+        task.done = !task.done;
+        render();
     })
+
     deleteBtn.addEventListener('click', (e) => {
-
         taskList = taskList.filter(t => t.id !== task.id)
-
         render();
         return;
     })
@@ -49,15 +53,15 @@ function createItem(task){
 
 function render() {
 
-    listHTML.innerHTML = ""
+    listHTML.innerHTML = "";
 
     if (taskList.length === 0) {
-        noTaskMsg.style.display = "block";
+        listHTML.innerHTML = '<p id = "noTaskMsg">Nenhuma tarefa por aqui!</p>';
     } else {
-        noTaskMsg.style.display = "None";
+        taskList.forEach(createItem);
     }
-    
-    taskList.forEach(createItem);
+
+    localStorage.setItem('myTodoList', JSON.stringify(taskList));
 }
 
 addButton.addEventListener('click', (e) => {
@@ -71,7 +75,6 @@ addButton.addEventListener('click', (e) => {
         return;
     }
 
-    noTaskMsg.style.display = "none";
     errorMessage.style.display = "none";
 
     const newTask = createTask(textValue);
