@@ -1,9 +1,3 @@
-Com certeza! Se o código está em inglês e os commits também, o **README** em inglês é essencial para manter a consistência e atrair olhares de recrutadores internacionais.
-
-Aqui está a versão "Premium" em inglês, focada em **Engineering & Best Practices**:
-
----
-
 # 📝 TaskFlow - To-Do List with Persistence
 
 A functional and robust task management web application. This project was developed to master DOM manipulation, state management, and browser data persistence.
@@ -41,3 +35,4 @@ git clone https://github.com/your-username/your-repo-name.git
 ```
 
 2. Open `index.html` in your favorite browser or use the **Live Server** extension in VS Code.
+
